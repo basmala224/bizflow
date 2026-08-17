@@ -40,7 +40,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password')
-        company = self.context['request'].user.company
+        # `company` is injected by CompanyScopedQuerySetMixin.perform_create()
+        company = validated_data.pop('company', None) or self.context['request'].user.company
         user = User(company=company, **validated_data)
         user.set_password(password)
         user.save()

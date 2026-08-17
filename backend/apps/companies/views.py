@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from apps.authentication.permissions import IsSuperAdmin
+from apps.authentication.permissions import IsSameCompany, RBACPermission
 from apps.users.models import User
 
 from .models import Company
@@ -11,18 +11,22 @@ from .serializers import CompanySerializer
 class CompanyViewSet(viewsets.ModelViewSet):
     """Platform-level company management — reserved to Super Admins.
 
-    Company Admins can still read their own company through this endpoint,
-    filtered to a single row, but only Super Admins can list, create,
-    update or delete companies (proper RBAC enforcement lands in Part 3).
+    Company Admins can still read (and only read) their own company through
+    this endpoint; only Super Admins can list all companies or create,
+    update, suspend or delete one.
     """
 
     serializer_class = CompanySerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_permissions(self):
-        if self.action in ('list', 'create', 'update', 'partial_update', 'destroy'):
-            return (IsAuthenticated(), IsSuperAdmin())
-        return (IsAuthenticated(),)
+    permission_classes = (IsAuthenticated, RBACPermission, IsSameCompany)
+    permission_map = {
+        'list': 'companies.manage',
+        'create': 'companies.manage',
+        'update': 'companies.manage',
+        'partial_update': 'companies.manage',
+        'destroy': 'companies.manage',
+        # 'retrieve' is intentionally absent: any authenticated user may
+        # attempt it, IsSameCompany then restricts it to their own company.
+    }
 
     def get_queryset(self):
         user = self.request.user
