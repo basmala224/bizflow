@@ -1,20 +1,27 @@
-import { Route, Routes } from 'react-router-dom'
-
-function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-3xl font-semibold text-gray-900">BizFlow</h1>
-        <p className="mt-2 text-gray-500">Frontend scaffold ready.</p>
-      </div>
-    </div>
-  )
-}
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { ProtectedRoute } from './layouts/ProtectedRoute'
+import DashboardPage from './pages/DashboardPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password/:uid/:token" element={<ResetPasswordPage />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   )
 }

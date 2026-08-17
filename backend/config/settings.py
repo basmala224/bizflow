@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     # Third-party
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'drf_spectacular',
 
@@ -108,6 +109,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email (dev: printed to console — no real SMTP configured yet)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@bizflow.local'
+
+# Used to build links inside emails (password reset, invitations...)
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:5173')
 
 
 # Django REST Framework
