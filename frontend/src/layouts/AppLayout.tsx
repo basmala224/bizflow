@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 const navItems = [
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/projects', label: 'Projects' },
+  { to: '/tasks', label: 'Tasks' },
 ]
 
 export function AppLayout({ children }: { children: ReactNode }) {

@@ -7,6 +7,8 @@ import ProjectDetailPage from './pages/ProjectDetailPage'
 import ProjectsListPage from './pages/ProjectsListPage'
 import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import TaskDetailPage from './pages/TaskDetailPage'
+import TasksKanbanPage from './pages/TasksKanbanPage'
 
 export default function App() {
   return (
@@ -37,6 +39,22 @@ export default function App() {
         element={
           <ProtectedRoute>
             <ProjectDetailPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/tasks"
+        element={
+          <ProtectedRoute>
+            <TasksKanbanPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/tasks/:id"
+        element={
+          <ProtectedRoute>
+            <TaskDetailPage />
           </ProtectedRoute>
         }
       />
