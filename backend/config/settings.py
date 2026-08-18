@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.projects',
     'apps.tasks',
+    'apps.dashboard',
     'apps.notifications',
     'apps.reports',
     'apps.audit',
